@@ -40,8 +40,8 @@ const thorium_blocks = ['salvo', 'spectre', 'vault', 'container', 'fuse'];
 Events.on(TapEvent, event => {
     const tile = event.tile;
     if (!tile) return;
-    const block = tile.build;
-    if (!block) return;
+    const build = tile.build;
+    if (!build) return;
     if (!tile.block()) return;
-    if (thorium_blocks.includes(tile.block().name)) drop(block);
+    if (thorium_blocks.includes(tile.block().name)) drop(build);
 });
