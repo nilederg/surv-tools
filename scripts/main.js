@@ -1,3 +1,7 @@
+let item = Items.thorium;
+var button, container;
+const ui = require("ui-lib/library");
+
 Events.on(ClientLoadEvent, event => {
     input_handler()
 })
@@ -6,6 +10,7 @@ function grab(item) {
     const unit = Vars.player.unit();
     if (unit && unit.type) {
         const core = unit.closestCore();
+        if (core == null) return
         if (unit.within(core, unit.type.range)) {
             Call.requestItem(Vars.player, core, item, 2500);
         }
@@ -28,14 +33,14 @@ function input_handler() {
     Core.scene.addListener((event) => {
         if (event instanceof InputEvent && !Vars.ui.chatfrag.shown() && !Vars.ui.schematics.isShown()) {
             if (event.type == "keyDown") {
-                if (event.keyCode == "R") grab(Items.thorium);
+                if (event.keyCode == "R") grab(item);
             }
         }
         return true
     });
 }
 
-const thorium_blocks = ['salvo', 'spectre', 'vault', 'container', 'fuse'];
+let debug = false
 
 Events.on(TapEvent, event => {
     const tile = event.tile;
@@ -43,5 +48,42 @@ Events.on(TapEvent, event => {
     const build = tile.build;
     if (!build) return;
     if (!tile.block()) return;
-    if (thorium_blocks.includes(tile.block().name)) drop(build);
+    if (debug) Log.info("tile: " + tile + "; block: " + tile.block().name, "; build: " + build);
+    drop(build);
 });
+
+// ui
+function set() {
+    container.visible = !container.visible;
+    if (container.visible) {
+        Sounds.click.play();
+
+        container.clear();
+        ItemSelection.buildTable(container, Vars.content.items(), () => item, i => {
+            if (i) {
+                item = i
+            }
+            container.visible = false;
+            button.style.imageUp.region = item.icon(Cicon.full);
+        });
+        container.pack();
+        // TODO: keep this on-screen
+        container.setPosition(button.x + button.width / 2 - container.width / 2,
+            button.y - container.height);
+
+        // Scale it like block config
+        container.transform = true;
+        container.actions(Actions.scaleTo(0, 1), Actions.visible(true),
+            Actions.scaleTo(1, 1, 0.07, Interp.pow3Out));
+    }
+};
+ui.addButton("surv-tools-grabe", item, null, cell => {
+    container = new Table();
+    Vars.ui.hudGroup.addChild(container);
+    button = cell.get();
+    button.clicked(() => {
+        if(debug) Log.info("clik")
+        set()
+    });
+})
+// ui
