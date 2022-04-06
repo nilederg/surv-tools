@@ -6,3 +6,4 @@ version: "0.0.1",
 repo: "nilederg/surv-tools"
 minGameVersion: 126,
 hidden: true
+dependencies: ["ui-lib"]
