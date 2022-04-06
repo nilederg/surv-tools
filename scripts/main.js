@@ -6,6 +6,7 @@ function grab(item) {
     const unit = Vars.player.unit();
     if (unit && unit.type) {
         const core = unit.closestCore();
+        if (core == null) return
         if (unit.within(core, unit.type.range)) {
             Call.requestItem(Vars.player, core, item, 2500);
         }
@@ -35,7 +36,7 @@ function input_handler() {
     });
 }
 
-const thorium_blocks = ['salvo', 'spectre', 'vault', 'container', 'fuse'];
+let debug = true
 
 Events.on(TapEvent, event => {
     const tile = event.tile;
@@ -43,5 +44,6 @@ Events.on(TapEvent, event => {
     const build = tile.build;
     if (!build) return;
     if (!tile.block()) return;
-    if (thorium_blocks.includes(tile.block().name)) drop(build);
+    if (debug) Log.info("tile: " + tile + "; block: " + tile.block().name, "; build: " + build);
+    drop(build);
 });
