@@ -82,7 +82,7 @@ ui.addButton("surv-tools-grabe", item, null, cell => {
     Vars.ui.hudGroup.addChild(container);
     button = cell.get();
     button.clicked(() => {
-        Log.info("clik")
+        if(debug) Log.info("clik")
         set()
     });
 })
