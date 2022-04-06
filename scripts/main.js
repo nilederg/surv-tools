@@ -36,7 +36,7 @@ function input_handler() {
     });
 }
 
-let debug = true
+let debug = false
 
 Events.on(TapEvent, event => {
     const tile = event.tile;
