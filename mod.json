@@ -1,7 +1,8 @@
 {
 	"name": "surv-tools",
 	"displayName": "Survivor Tools",
-	"author":"nilederg",
+	"author":"nilederg + bendnuts",
+	"repo": "nilederg/surv-tools",
 	"description": "Provides fast team communication and displays key infected POIs. Intended for use by survivors.",
 	"version": "0.0.1",
 	"minGameVersion": 126,
