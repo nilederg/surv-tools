@@ -9,6 +9,7 @@ Events.on(ClientLoadEvent, event => {
     input_handler()
 })
 
+
 function grab(item) {
     const unit = Vars.player.unit();
     if (unit && unit.type) {
@@ -31,11 +32,9 @@ function drop(block_to_drop) {
     }
 }
 
-let gun_only = true; // probably dont want to deploy into thorium reactors kekw
-
-function filler() {
+function filler(guns_only) {
     Groups.build.each(b => {
-        if (gun_only && !(b instanceof Turret.TurretBuild)) return;
+        if (guns_only && !(b instanceof Turret.TurretBuild)) return;
         drop(b);
     })
 }
@@ -46,10 +45,10 @@ function input_handler() {
         if (event instanceof InputEvent && !Vars.ui.chatfrag.shown() && !Vars.ui.schematics.isShown()) {
             if (event.type == "keyDown") {
                 if (event.keyCode == DROP_KEY) grab(item);
-                if (event.keyCode == FILL_KEY) filler(); // up
+                if (event.keyCode == FILL_KEY) filler(true); // up
             }
         }
-        return true
+        return true // this is necessary
     });
 }
 
