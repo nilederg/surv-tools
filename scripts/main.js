@@ -2,9 +2,13 @@ let item = Items.thorium;
 var button, container;
 const ui = require("ui-lib/library");
 
+const DROP_KEY = "R";
+const FILL_KEY = "B";
+
 Events.on(ClientLoadEvent, event => {
     input_handler()
 })
+
 
 function grab(item) {
     const unit = Vars.player.unit();
@@ -28,15 +32,23 @@ function drop(block_to_drop) {
     }
 }
 
+function filler(guns_only) {
+    Groups.build.each(b => {
+        if (guns_only && !(b instanceof Turret.TurretBuild)) return;
+        drop(b);
+    })
+}
+
 
 function input_handler() {
     Core.scene.addListener((event) => {
         if (event instanceof InputEvent && !Vars.ui.chatfrag.shown() && !Vars.ui.schematics.isShown()) {
             if (event.type == "keyDown") {
-                if (event.keyCode == "R") grab(item);
+                if (event.keyCode == DROP_KEY) grab(item);
+                if (event.keyCode == FILL_KEY) filler(true); // up
             }
         }
-        return true
+        return true // this is necessary
     });
 }
 
@@ -82,7 +94,7 @@ ui.addButton("surv-tools-grabe", item, null, cell => {
     Vars.ui.hudGroup.addChild(container);
     button = cell.get();
     button.clicked(() => {
-        if(debug) Log.info("clik")
+        if (debug) Log.info("clik")
         set()
     });
 })
