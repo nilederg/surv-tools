@@ -1,9 +1,11 @@
 let item = Items.thorium;
 var button, container;
 const ui = require("ui-lib/library");
-
+const kk = Packages.arc.input.KeyCode;
 const DROP_KEY = "R";
 const FILL_KEY = "B";
+
+let enabled = true
 
 Events.on(ClientLoadEvent, event => {
     input_handler()
@@ -11,6 +13,7 @@ Events.on(ClientLoadEvent, event => {
 
 
 function grab(item) {
+    if (!enabled) return;
     const unit = Vars.player.unit();
     if (unit && unit.type) {
         const core = unit.closestCore();
@@ -22,9 +25,11 @@ function grab(item) {
 };
 
 function drop(block_to_drop) {
+    if (!enabled) return;
     const unit = Vars.player.unit();
     if (unit && unit.type) {
         if (unit.within(block_to_drop, unit.type.range)) {
+            if (unit.stack.amount <= 0) return
             if (block_to_drop.acceptStack(unit.stack.item, unit.stack.amount, unit) > 0) {
                 Call.transferInventory(Vars.player, block_to_drop);
             }
@@ -33,9 +38,10 @@ function drop(block_to_drop) {
 }
 
 function filler(guns_only) {
+    if (!enabled) return;
     Groups.build.each(b => {
         if (guns_only && !(b instanceof Turret.TurretBuild)) return;
-        drop(b);
+        drop(b); // drop() does all the other checks
     })
 }
 
@@ -55,6 +61,7 @@ function input_handler() {
 let debug = false
 
 Events.on(TapEvent, event => {
+    if (!enabled) return
     const tile = event.tile;
     if (!tile) return;
     const build = tile.build;
@@ -96,6 +103,12 @@ ui.addButton("surv-tools-grabe", item, null, cell => {
     button.clicked(() => {
         if (debug) Log.info("clik")
         set()
+    });
+    button.clicked(kk.mouseRight, () => {
+        if (debug) Log.info("clik")
+        enabled = !enabled
+        Log.info("enabled: " + enabled)
+        Vars.ui.hudfrag.showToast("toggled itemgrabbing to " + enabled)
     });
 })
 // ui
