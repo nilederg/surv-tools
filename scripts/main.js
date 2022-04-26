@@ -108,11 +108,8 @@ ui.addButton("surv-tools-grabe", item, null, cell => {
         if (debug) Log.info("clik")
         enabled = !enabled
         Log.info("enabled: " + enabled)
-        if (enabled) {
-            Vars.ui.hudfrag.showToast("turned on itemgrabbing");
-        } else {
-            Vars.ui.hudfrag.showToast("turned off itemgrabbing");
-        }
+        let text = enabled ? "turned on itemgrabbing" : "turned off itemgrabbing"
+        Vars.ui.hudfrag.showToast(text)
     });
 })
 // ui
