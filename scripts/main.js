@@ -58,6 +58,11 @@ function input_handler() {
     });
 }
 
+// sendResourceMessage(Items.copper); to tell team you are making copper
+function sendResourceMessage(item) {
+	Call.sendChatMessage("/t Now building " + item.emoji());
+}
+
 let debug = false
 
 Events.on(TapEvent, event => {
@@ -101,15 +106,15 @@ ui.addButton("surv-tools-grabe", item, null, cell => {
     Vars.ui.hudGroup.addChild(container);
     button = cell.get();
     button.clicked(() => {
-        if (debug) Log.info("clik")
-        set()
+        if (debug) Log.info("clik");
+        set();
     });
     button.clicked(kk.mouseRight, () => {
-        if (debug) Log.info("clik")
-        enabled = !enabled
-        Log.info("enabled: " + enabled)
-        let text = enabled ? "turned on itemgrabbing" : "turned off itemgrabbing"
-        Vars.ui.hudfrag.showToast(text)
+        if (debug) Log.info("clik");
+        enabled = !enabled;
+        Log.info("enabled: " + enabled);
+        let text = enabled ? "turned on itemgrabbing" : "turned off itemgrabbing";
+        Vars.ui.hudfrag.showToast(text);
     });
 })
 // ui
