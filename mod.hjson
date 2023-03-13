@@ -1,9 +1,8 @@
-name: surv-tools,
-displayName: "Survivor Tools",
-author:"nilederg + bendnuts",
-description: "Provides fast team communication and displays key infected POIs. Intended for use by survivors.",
-version: "0.2",
+name: surv-tools
+displayName: "Survivor Tools"
+author:"nilederg + bendn"
+description: "Provides fast team communication and displays key infected POIs. Intended for use by survivors."
+version: "0.2"
 repo: "nilederg/surv-tools"
-minGameVersion: 126,
+minGameVersion: 136
 hidden: true
-dependencies: ["ui-lib"]

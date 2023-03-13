@@ -1,12 +1,21 @@
 /*jshint esversion: 6 */
 let item = Items.thorium;
 var button, container;
-const ui = require("ui-lib/library");
 const kk = Packages.arc.input.KeyCode;
 const GRAB_KEY = "R";
 const FILL_KEY = "B";
 
 let enabled = true;
+
+const ui = require("library");
+require("areas");
+require("effects");
+require("clicks");
+require("errors");
+require("selection");
+
+Events.on(ClientLoadEvent, ui.load);
+
 
 Events.on(ClientLoadEvent, (event) => {
   input_handler();
